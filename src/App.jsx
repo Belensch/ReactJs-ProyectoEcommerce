@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import logo from './logo.svg'
 import NavBar from './components/NavBar/NavBar'
-import ItemListContainer from './components/NavBar/ItemListContainer/ItemListContainer'
-
-
 import './App.css'
+import ItemListContainer from './components/containers/ItemListContainer/ItemListContainer'
+
 
 function App() {
   const [count, setCount] = useState(0)
