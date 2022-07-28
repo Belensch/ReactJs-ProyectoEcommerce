@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 
 import { getFetch } from "../../../helpers/getFetch"
 
@@ -12,12 +12,21 @@ const ItemListContainer = ({saludo}) => {
   const [ productos, setProductos ] = useState([])    
     const [ loading, setLoading ] = useState(true)
 
+    const {categoriaId} = useParams()
     useEffect(()=>{
+        if(categoriaId){
       getFetch() // mock de una consulta a una api
+      .then(respuesta => setProductos(respuesta.filter(prod=>prod.categoria==categoriaId)))    
+      .catch( err => console.log(err) )
+      .finally(()=> setLoading(false) )
+    } else {
+        getFetch() // mock de una consulta a una api
       .then(respuesta => setProductos(respuesta))    
       .catch( err => console.log(err) )
       .finally(()=> setLoading(false) )
-  }, [])
+
+    }
+  }, [categoriaId])
 
   const onAdd = (cant) => {
       console.log(`La cantidad es:  ${cant}`)
@@ -28,14 +37,14 @@ const ItemListContainer = ({saludo}) => {
           { saludo }
           
               { loading ? 
-                  <div><h1>Cargando ...</h1> <div className="sk-chase">
+                  <div><h1>Cargando ... <div className="sk-chase">
   <div className="sk-chase-dot"></div>
   <div className="sk-chase-dot"></div>
   <div className="sk-chase-dot"></div>
   <div className="sk-chase-dot"></div>
   <div className="sk-chase-dot"></div>
   <div className="sk-chase-dot"></div>
-</div></div>
+</div></h1></div>
                   
                   : 
                   <ItemList productos={productos} />

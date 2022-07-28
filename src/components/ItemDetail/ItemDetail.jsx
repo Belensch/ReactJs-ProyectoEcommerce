@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ItemDetail = (producto) => {
+const ItemDetail = ({producto}) => {
   return (
     <div className='row'>
       <div className="col">
