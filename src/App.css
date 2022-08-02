@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css2?family=Lora&family=Montserrat&display=swap);
 body {
     font-family: 'Montserrat', sans-serif;
-    background: url(src/img/GollumCaves.webp);
+    background: url(src/img/GollumCaves.webp) 0.5;
     background-size: cover;
     text-align: center;
-    color: #ffffff;
+    color: black;
     text-decoration: none;
 }
 

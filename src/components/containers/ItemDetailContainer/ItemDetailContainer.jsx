@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams}  from 'react-router-dom'
 import { getFetch } from '../../../helpers/getFetch'
@@ -5,20 +6,24 @@ import ItemDetail from '../../ItemDetail/ItemDetail'
 
 
 const ItemDetailContainer = () => {
-  //Estado de UN producto
-  const [producto, setProducto]=  useState({})
-    const {detalleId} = useParams ()
+ const [ producto, setproducto] =useState({})
+  const {detalleId}=  useParams ()
+   
     console.log(detalleId)
 
     useEffect ( ()=> {
-      getFetch(detalleId)
-      .then(resp => setProducto (resp))
+      getFetch (detalleId)
+      .then(respuesta => setproducto(respuesta))
 
-    }, [])
-    console.log (producto)
+    }, [detalleId])
+    
   return (
-    <div>ItemDetailContainer
-        <ItemDetail producto={producto}/>
+    <div className='border border-2 border-success '>
+      ItemDetailContainer
+      <ItemDetail producto={producto}/>
+        
+      { /* <Input/>
+          <Intercambiabilidad/>*/}
     </div>
   )
 }

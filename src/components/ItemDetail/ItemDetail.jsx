@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import ItemCount from '../ItemCount/ItemCount'
 
 const ItemDetail = ({producto}) => {
+const [toCart, setToCart]= useState (true)
+const onAdd= (cant)=> {
+  alert (`La cantidad es ${cant}`)
+  setToCart(false)
+}
+
   return (
     <div className='row'>
-      <div className="col">
-        <div className='row'>
+      <div className="col-md-4 p-1">
+        <div className='card w-100 mt-5'>
           <div className='col'>
             <div className="col"></div>
-            <img src="{producto.foto}" alt="Foto del Producto" />
+            <img src={producto.foto} alt="Foto del Producto" />
           </div>
           <div className='col'>
             <h3>{ producto.name}</h3>
@@ -19,9 +27,16 @@ const ItemDetail = ({producto}) => {
       
       </div>
       <div className="col">
-        {/* Contador*/}
+       
       </div>
+      {toCart?  
+        <ItemCount initial={1} stock={5} onAdd= {onAdd}/>
+         :
+        <Link to="/cart"> <button> IrAlCarrito </button></Link>
+      }
+    
     </div>
+   
   )
 }
 

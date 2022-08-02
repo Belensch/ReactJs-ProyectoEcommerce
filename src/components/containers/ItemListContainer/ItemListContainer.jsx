@@ -16,7 +16,7 @@ const ItemListContainer = ({saludo}) => {
     useEffect(()=>{
         if(categoriaId){
       getFetch() // mock de una consulta a una api
-      .then(respuesta => setProductos(respuesta.filter(prod=>prod.categoria==categoriaId)))    
+      .then(respuesta => setProductos(respuesta.filter(prod=>prod.categoria === categoriaId)))    
       .catch( err => console.log(err) )
       .finally(()=> setLoading(false) )
     } else {
@@ -50,7 +50,7 @@ const ItemListContainer = ({saludo}) => {
                   <ItemList productos={productos} />
               }
           
-          <ItemCount initial={1} stock={5} onAdd={onAdd} />
+          {/*<ItemCount initial={1} stock={5} onAdd={onAdd} />*/}
           
       </div>
       

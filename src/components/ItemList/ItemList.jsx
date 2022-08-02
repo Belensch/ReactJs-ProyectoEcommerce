@@ -7,7 +7,7 @@ const ItemList = ({productos}) => {
     <div style={ {
 display: 'flex',
 flexDirection:'row',
-flexWrap:'wrap,'
+flexWrap:'wrap'
     }}>
 {
     productos?.map( prod=> <Item key= {prod.id} prod={prod}/>)
