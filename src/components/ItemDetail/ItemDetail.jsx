@@ -1,13 +1,21 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCartContext } from '../../context/CartContext'
 import ItemCount from '../ItemCount/ItemCount'
 
+
 const ItemDetail = ({producto}) => {
+  const{agregarCarrito, cartList}= useCartContext()
+
 const [toCart, setToCart]= useState (true)
+
 const onAdd= (cant)=> {
-  alert (`La cantidad es ${cant}`)
+  
   setToCart(false)
+  agregarCarrito ({...producto, cantidad:cant})
+  alert (`La cantidad es ${cant}`)
 }
+console.log(cartList)
 
   return (
     <div className='row'>
@@ -32,7 +40,7 @@ const onAdd= (cant)=> {
       {toCart?  
         <ItemCount initial={1} stock={5} onAdd= {onAdd}/>
          :
-        <Link to="/cart"> <button> IrAlCarrito </button></Link>
+        <Link to="/cart"> <button className='btn btn-outline-primary btn-block'> Ir Al Carrito </button></Link>
       }
     
     </div>

@@ -13,6 +13,7 @@ const ItemListContainer = ({saludo}) => {
     const [ loading, setLoading ] = useState(true)
 
     const {categoriaId} = useParams()
+
     useEffect(()=>{
         if(categoriaId){
       getFetch() // mock de una consulta a una api
@@ -37,22 +38,21 @@ const ItemListContainer = ({saludo}) => {
           { saludo }
           
               { loading ? 
-                  <div><h1>Cargando ... <div className="sk-chase">
-  <div className="sk-chase-dot"></div>
-  <div className="sk-chase-dot"></div>
-  <div className="sk-chase-dot"></div>
-  <div className="sk-chase-dot"></div>
-  <div className="sk-chase-dot"></div>
-  <div className="sk-chase-dot"></div>
-</div></h1></div>
-                  
+                  <div><h1>Cargando ... </h1>
+                        <div className="sk-chase">
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        <div className="sk-chase-dot"></div>
+                        </div>
+                   </div>
                   : 
                   <ItemList productos={productos} />
               }
-          
-          {/*<ItemCount initial={1} stock={5} onAdd={onAdd} />*/}
-          
-      </div>
+          <ItemCount initial={1} stock={5} onAdd={onAdd} />
+        </div>
       
   )
 }

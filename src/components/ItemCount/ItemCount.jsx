@@ -16,7 +16,7 @@ const ItemCount = ({initial=1, stock=10, onAdd}) => {
     const handleAddToCard= () =>{
       if ( count< stock){
          
-        onAdd(count)
+        onAdd (count)
     }
   }
 

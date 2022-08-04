@@ -29,7 +29,7 @@ const NavBar = () => {
         to= "/categoria/libros" 
         className={({isActive})=>isActive ? 'boton-sombra' : 'boton'
         }>
-            <a className="dropdown-item" href="#">Libros</a></NavLink></li>
+            <p className="dropdown-item" href="#">Libros</p></NavLink></li>
         <li><NavLink 
         to= "/categoria/figuras" 
         className="dropdown-item" href="#">Figuras</NavLink></li>
