@@ -29,9 +29,9 @@ const ItemListContainer = ({saludo}) => {
   const onAdd = (cant) => {
       console.log(`La cantidad es:  ${cant}`)
   }
-  const Loadin = ()=> {
+  const Loading = ()=> {
     useEffect(()=>{
-      return()=> console.log ("Desmontado de loadin")
+      return()=> console.log ("Desmontado de loading")
     })
     return <div><h1>Cargando ... </h1>
     <div className="sk-chase">
@@ -50,7 +50,7 @@ const ItemListContainer = ({saludo}) => {
           { saludo }
           
               { loading ? 
-              <Loadin/>
+              <Loading/>
                   
                   : 
                   <ItemList productos={productos} />

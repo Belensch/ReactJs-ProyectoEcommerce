@@ -16,7 +16,7 @@ const ItemDetailContainer = () => {
     useEffect ( ()=> {
       if (detalleId){
         getFetch ()
-        .then(respuesta => setproducto(respuesta))
+        .then(respuesta => setproducto(respuesta.filter(prod=>prod.categoria === detalleId)))  
         .catch( err => console.log(err) )
         .finally(()=> setLoading(false) )
 
@@ -32,7 +32,7 @@ const ItemDetailContainer = () => {
     
 const Loading =()=>{
   useEffect (()=> {
-    return ()=> console.log ("desmontado del loadin")
+    return ()=> console.log ("desmontado del loading")
   })
   return <div><h1>Cargando ... </h1>
   <div className="sk-chase">

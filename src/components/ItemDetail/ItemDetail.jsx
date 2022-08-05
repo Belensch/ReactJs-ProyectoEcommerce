@@ -6,7 +6,7 @@ import ItemCount from '../ItemCount/ItemCount'
 
 const ItemDetail = ({producto}) => {
   const[ isCount, setIsCount] = useState (true)
-  const{agregarCarrito}= useCartContext()
+  const{agregarCarrito, cartList}= useCartContext()
 
 //const [toCart, setToCart]= useState (true)
 
