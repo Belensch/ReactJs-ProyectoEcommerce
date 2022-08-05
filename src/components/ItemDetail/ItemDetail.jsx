@@ -5,15 +5,16 @@ import ItemCount from '../ItemCount/ItemCount'
 
 
 const ItemDetail = ({producto}) => {
-  const{agregarCarrito, cartList}= useCartContext()
+  const[ isCount, setIsCount] = useState (true)
+  const{agregarCarrito}= useCartContext()
 
-const [toCart, setToCart]= useState (true)
+//const [toCart, setToCart]= useState (true)
 
 const onAdd= (cant)=> {
-  
-  setToCart(false)
+    //setToCart(false)
   agregarCarrito ({...producto, cantidad:cant})
   alert (`La cantidad es ${cant}`)
+  setIsCount(false)
 }
 console.log(cartList)
 
@@ -37,11 +38,22 @@ console.log(cartList)
       <div className="col">
        
       </div>
-      {toCart?  
-        <ItemCount initial={1} stock={5} onAdd= {onAdd}/>
-         :
+       
+      {isCount ? 
+        <ItemCount initial={1} stock={5} onAdd= {onAdd} />
+         : 
+         <>
+         <Link to= {'/cart'}>
+         <button className=' btn btn-outline-success'> Ir a Cart</button>
+         </Link>
+         <Link to= {'/'}>
+         <button className=' btn btn-outline-primary'> Seguir Comprando</button>
+         </Link>
+         </>
+        }
+        
         <Link to="/cart"> <button className='btn btn-outline-primary btn-block'> Ir Al Carrito </button></Link>
-      }
+      
     
     </div>
    

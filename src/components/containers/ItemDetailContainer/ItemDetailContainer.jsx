@@ -7,23 +7,54 @@ import ItemDetail from '../../ItemDetail/ItemDetail'
 
 const ItemDetailContainer = () => {
  const [ producto, setproducto] =useState({})
-  const {detalleId}=  useParams ()
+ const [ loading, setLoading] = useState (true)
+
+ const {detalleId}=  useParams ()
    
     console.log(detalleId)
 
     useEffect ( ()=> {
-      getFetch (detalleId)
-      .then(respuesta => setproducto(respuesta))
+      if (detalleId){
+        getFetch ()
+        .then(respuesta => setproducto(respuesta))
+        .catch( err => console.log(err) )
+        .finally(()=> setLoading(false) )
 
+      } else {
+        getFetch() 
+      .then(respuesta => setproducto(respuesta))    
+      .catch( err => console.log(err) )
+      .finally(()=> setLoading(false) )
+      
+      
+      }
     }, [detalleId])
     
+const Loading =()=>{
+  useEffect (()=> {
+    return ()=> console.log ("desmontado del loadin")
+  })
+  return <div><h1>Cargando ... </h1>
+  <div className="sk-chase">
+  <div className="sk-chase-dot"></div>
+  <div className="sk-chase-dot"></div>
+  <div className="sk-chase-dot"></div>
+  <div className="sk-chase-dot"></div>
+  <div className="sk-chase-dot"></div>
+  <div className="sk-chase-dot"></div>
+  </div>
+</div>
+}
   return (
-    <div className='border border-2 border-success '>
+    <div>
       ItemDetailContainer
-      <ItemDetail producto={producto}/>
-        
-      { /* <Input/>
-          <Intercambiabilidad/>*/}
+      { loading ?
+      <Loading/>
+      : 
+          <ItemDetail producto={producto}/>
+    }
+      
+    
     </div>
   )
 }

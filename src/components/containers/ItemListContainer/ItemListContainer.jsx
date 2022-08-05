@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-
 import { getFetch } from "../../../helpers/getFetch"
-
 import ItemCount from "../../ItemCount/ItemCount"
-
 import ItemList from "../../ItemList/ItemList"
 
 
@@ -32,22 +29,29 @@ const ItemListContainer = ({saludo}) => {
   const onAdd = (cant) => {
       console.log(`La cantidad es:  ${cant}`)
   }
+  const Loadin = ()=> {
+    useEffect(()=>{
+      return()=> console.log ("Desmontado de loadin")
+    })
+    return <div><h1>Cargando ... </h1>
+    <div className="sk-chase">
+    <div className="sk-chase-dot"></div>
+    <div className="sk-chase-dot"></div>
+    <div className="sk-chase-dot"></div>
+    <div className="sk-chase-dot"></div>
+    <div className="sk-chase-dot"></div>
+    <div className="sk-chase-dot"></div>
+    </div>
+</div>
+  }
   
   return (
       <div>
           { saludo }
           
               { loading ? 
-                  <div><h1>Cargando ... </h1>
-                        <div className="sk-chase">
-                        <div className="sk-chase-dot"></div>
-                        <div className="sk-chase-dot"></div>
-                        <div className="sk-chase-dot"></div>
-                        <div className="sk-chase-dot"></div>
-                        <div className="sk-chase-dot"></div>
-                        <div className="sk-chase-dot"></div>
-                        </div>
-                   </div>
+              <Loadin/>
+                  
                   : 
                   <ItemList productos={productos} />
               }
