@@ -6,30 +6,19 @@ import ItemDetail from '../../ItemDetail/ItemDetail'
 
 
 const ItemDetailContainer = () => {
- const [ producto, setproducto] =useState({})
+ const [ producto, setProducto] =useState({})
  const [ loading, setLoading] = useState (true)
 
  const {detalleId}=  useParams ()
    
     console.log(detalleId)
 
-    useEffect ( ()=> {
-      if (detalleId){
-        getFetch ()
-        .then(respuesta => setproducto(respuesta.filter(prod=>prod.categoria === detalleId)))  
-        .catch( err => console.log(err) )
-        .finally(()=> setLoading(false) )
-
-      } else {
-        getFetch() 
-      .then(respuesta => setproducto(respuesta))    
-      .catch( err => console.log(err) )
-      .finally(()=> setLoading(false) )
-      
-      
-      }
-    }, [detalleId])
-    
+    useEffect(() => {
+      getFetch(detalleId)
+      .then(respuesta => setProducto(respuesta)) 
+      .finally(()=> setLoading(false) )     
+  }, [])
+        
 const Loading =()=>{
   useEffect (()=> {
     return ()=> console.log ("desmontado del loading")
