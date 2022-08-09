@@ -44,7 +44,7 @@ console.log(cartList)
          : 
          <>
          <Link to= {'/cart'}>
-         <button className=' btn btn-outline-success'> Ir a Cart</button>
+         <button className=' btn btn-outline-success'> Ir al carrito: Cart</button>
          </Link>
          <Link to= {'/'}>
          <button className=' btn btn-outline-primary'> Seguir Comprando</button>
