@@ -23,7 +23,7 @@ const ItemCount = ({initial=1, stock=10, onAdd}) => {
      
 
   return (
-    <div className='card w-10 '>
+    <div className='card  '>
         
         <label> {count}</label>
         <br />

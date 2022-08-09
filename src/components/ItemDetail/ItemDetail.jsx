@@ -37,24 +37,22 @@ console.log(cartList)
       </div>
       <div className="col">
        
-      </div>
+      
        
       {isCount ? 
         <ItemCount initial={1} stock={5} onAdd= {onAdd} />
          : 
          <>
          <Link to= {'/cart'}>
-         <button className=' btn btn-outline-success'> Ir al carrito: Cart</button>
-         </Link>
-         <Link to= {'/'}>
+         <button className=' btn btn-outline-success'> Terminar la compra</button>
+         </Link><Link to= {'/'}>
          <button className=' btn btn-outline-primary'> Seguir Comprando</button>
          </Link>
+         
          </>
         }
-        
-        <Link to="/cart"> <button className='btn btn-outline-primary btn-block'> Ir Al Carrito </button></Link>
       
-    
+      </div>
     </div>
    
   )

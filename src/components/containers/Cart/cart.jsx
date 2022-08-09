@@ -30,7 +30,7 @@ const Cart = () => {
 
         <div>
         <h6>  { precioTotal() !== 0 && `Precio Total: ${ precioTotal() }`} </h6>
-    <button className='btn btn-danger' onClick={vaciarCarrito}> Vaciar tu carrito</button></div>
+    <button className='btn btn-danger ' onClick={vaciarCarrito}> Vaciar tu carrito</button></div>
 
     
       </div>
