@@ -1,5 +1,5 @@
 let productos = [
-  {id: "1", categoria: "libros", name: "The Lord of the rings", price: 5000, foto: "https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg"},
+  {id: "1", categoria: "libros", name: "The Lord of the Rings", price: 5000, foto: "https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg"},
   {id: "2", categoria: "libros", name: "The Hobbit", price: 5000, foto: "https://cupertinohslibrary.files.wordpress.com/2014/12/hobbit-anniversary-collection-1.jpg"},
   {id: "3", categoria: "libros", name: "Silmarrillion", price: 7000,foto: "https://m.media-amazon.com/images/I/810DRhUweEL._AC_SX679_.jpg"},
   {id: "4", categoria: "figuras", name: "Funko Pop!: Frodo ", price: 5000, foto: "https://m.media-amazon.com/images/I/61Od4zcvIcL._AC_SX522_.jpg"},
