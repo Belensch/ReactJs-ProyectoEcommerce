@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { collection, getDocs, getFirestore, query, where} from 'firebase/firestore'
-import { getFetch } from "../../../helpers/getFetch"
 import ItemCount from "../../ItemCount/ItemCount"
 import ItemList from "../../ItemList/ItemList"
+
+
+
 
 
 const ItemListContainer = ({saludo}) => {
@@ -12,7 +14,7 @@ const ItemListContainer = ({saludo}) => {
 
     const {categoriaId} = useParams()
     
-
+ 
     useEffect (()=>{
       const baseDatos = getFirestore () //trar a firestore
       const queryCollection = collection ( baseDatos, 'productos') //fs p traer todo el listado de todos los productos
@@ -25,30 +27,12 @@ const ItemListContainer = ({saludo}) => {
     console.log(productos)
 
 
-    //-----------------------------------------------
-
-   //  ntigua consulta al mock 
-    //useEffect(()=>{
-      //  if(categoriaId){
-    //  getFetch() //
-      //.then(respuesta => setProductos(respuesta.filter(prod=>prod.categoria === categoriaId)))    
-      //.catch( err => console.log(err) )
-      //.finally(()=> setLoading(false) )
-    //} else {
-      //  getFetch() 
-      //.then(respuesta => setProductos(respuesta))    
-      //.catch( err => console.log(err) )
-      //.finally(()=> setLoading(false) )
-
-    //}
-  //}, [categoriaId])
-
   const onAdd = (cant) => {
       console.log(`La cantidad es:  ${cant}`)
   }
   const Loading = ()=> {
     useEffect(()=>{
-      return()=> console.log ("Desmontado de loading")
+      
     })
     return <div><h1>Cargando ... </h1>
     <div className="sk-chase">
