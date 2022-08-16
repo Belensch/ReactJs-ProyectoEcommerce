@@ -18,7 +18,9 @@ const ItemListContainer = ({saludo}) => {
     useEffect (()=>{
       const baseDatos = getFirestore () //trar a firestore
       const queryCollection = collection ( baseDatos, 'productos') //fs p traer todo el listado de todos los productos
-      getDocs (queryCollection)
+      const queryCollectionFilter = categoriaId? query(queryCollection, 
+        where('categoria', '==', categoriaId)) : queryCollection
+      getDocs (queryCollectionFilter)
       .then (resp => setProductos (resp.docs.map(prod => ({id: prod.id, ...prod.data() } ) ) ) )
       .catch (err => console.log (err))   
       .finally( () => setLoading (false))
