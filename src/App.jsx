@@ -5,7 +5,9 @@ import ItemDetailContainer from './components/containers/ItemDetailContainer/Ite
 import Cart from './components/containers/Cart/cart'
 import { useState } from 'react'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import CartContextProvider from './context/CartContext'
+
 
 
 

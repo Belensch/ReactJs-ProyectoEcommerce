@@ -1,6 +1,9 @@
-import { addDoc, collection, docs, documentId, getDocs, getFirestore, query, where, writeBatch } from "firebase/firestore"
+import { addDoc, collection, documentId, getDocs, getFirestore, query, where, writeBatch } from "firebase/firestore"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useCartContext } from "../../../context/CartContext"
+import { Card, Row } from "react-bootstrap"
+import CardHeader from "react-bootstrap/esm/CardHeader"
 
 const Cart = () => {
     const [ id, setId ] = useState('')
@@ -24,14 +27,14 @@ const Cart = () => {
         const order = {}
         order.buyer = formData
 
-        order.productoss = cartList.map(prod => {
+        order.productos = cartList.map(prod => {
             return {
                 product: prod.name,
                 id: prod.id,
                 price: prod.price
             }
         })
-        
+        order.date = new Date()
         order.total = precioTotal()
 
         // guardar la orden en la base de datos
@@ -88,11 +91,27 @@ const Cart = () => {
 
 
   return (
+    <>
+    {id !== '' &&
+    <div>
+        <Card className="text-center mx-auto" syle={{width: '20rem' , borderRadius:"12px"}}>
+        <CardHeader style={{ backgroundColor: "#FF9F50", color: "white"}}>¡COMPRA EXITOSA!</CardHeader>
+        <Card.Text> {`Tu numero de orden es: ${id}`}</Card.Text>
+        </Card>
+        <br/>
+    </div>
+    }
+    {cartList.length === 0?
+    <Card className="text-center mx-auto" style={{ width: '10rem' }}>
+        <CardHeader> Aun no tienes nada en tu carrito!</CardHeader>
+        <button className="btn-outline-light" style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }}><Link to="/" style={{  color: "white" }}>Ir a comprar</Link> </button>
+    </Card>
+    :
     
     <div className="row"> 
       <h1> Tu Carrito </h1> 
          <div className="col-8"> 
-         {id.length > 0 && <h2>El id de la orden es:  {id}</h2> }
+         {/*id.length > 0 && <h2>El id de la orden es:  {id}</h2> */}
              <div  className="w-100">
               {cartList.map (productos =>(
                 <div key={productos.id}>
@@ -107,8 +126,11 @@ const Cart = () => {
         </div>
 
         <div>
+            <Card className="text-center mx-auto" style={{ width: '10rem' }}>
+                    <CardHeader>TOTAL</CardHeader>
         <h6>  { precioTotal() !== 0 && `Precio Total: ${ precioTotal() }`} </h6>
-        <button onClick={vaciarCarrito}>Vaciar carrito</button>
+        </Card>
+        <button  className="btn-outline-light" onClick={vaciarCarrito} style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }}>Vaciar carrito</button>
                 </div>
             </div>
               <div className="col-4">
@@ -168,13 +190,13 @@ const Cart = () => {
                        
                         <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                     </div>
-                    <button type="submit" className="btn btn-primary">submit</button>
+                    <button type="submit" className="btn btn-primary">COMPRAR</button>
 
                 </form>
             </div>    
         </div>
-
-
+}
+</>
   )
 }
 
