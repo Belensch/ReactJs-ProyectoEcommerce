@@ -36,3 +36,5 @@ Listado de librerias y dependencias utilizadas para darle un valor adicional a l
 * Firebase -> Base de datos para los productos. Version: ^9.9.2
 # Contacto
 Belen Schmid Diaz LinkedIn -> https://www.linkedin.com/in/belen-schmid-diaz/
+
+## Muchas gracias!
