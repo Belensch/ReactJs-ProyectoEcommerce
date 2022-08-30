@@ -2,96 +2,52 @@ import { addDoc, collection, documentId, getDocs, getFirestore, query, where, wr
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useCartContext } from "../../../context/CartContext"
-import { Card, Row } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import CardHeader from "react-bootstrap/esm/CardHeader"
+import CheckoutForm from "../../CheckoutForm/CheckoutForm"
+import { setOrder, updateStock } from "../../../helpers/Helpers"
+
 
 const Cart = () => {
+    
+    const { cartList, vaciarCarrito, eliminarProducto, precioTotal } = useCartContext()
     const [ id, setId ] = useState('')
 
-    const [formData, setFormData] = useState({
 
-        email:'', 
-        name:'', 
-        phone:'',
-        rEmail:''
-    })
-
-    const { cartList, vaciarCarrito, eliminarProducto, precioTotal } = useCartContext()
-
-
-
-    // fución para guardar la orden en la base de datos
-    const guardarOrden = async (e) => {
+    // //Save order function that creates the order information to store in Firestore
+    const guardarOrden = async (e,formData) => {
         e.preventDefault()
         
-        const order = {}
-        order.buyer = formData
+        const order = {}//empty order object
+        order.buyer = formData //buyer state set by the form
 
-        order.productos = cartList.map(prod => {
+        order.productos = cartList.map(prod => {//List cartList(array) products and save the properties of interest (product, id, price)
             return {
                 product: prod.name,
                 id: prod.id,
                 price: prod.price
             }
         })
-        order.date = new Date()
-        order.total = precioTotal()
-
-        // guardar la orden en la base de datos
-        const baseDatos = getFirestore()
-        const queryOrders = collection(baseDatos, 'orders')
-        addDoc(queryOrders, order)
-        .then(resp => setId(resp.id))
-        .catch(err => console.log(err))
-        .finally(()=> setFormData({
-                email:'', 
-                name:'', 
-                phone:'',
-                rEmail:''
-            })
-        )
+        order.date = new Date()  //Add a date to the order
+        order.total = precioTotal() //Add the total price to the order
 
       
 
-        // actualizar el stock 
-         const queryCollectionStock = collection(baseDatos, 'productoss') // apuntar a una collección de firestore
-
-        // filtro para la consulta
-         const queryActulizarStock = query(
-             queryCollectionStock,                    
-             where( documentId() , 'in', cartList.map(it => it.id) )          
-         )
-
-        const batch = writeBatch(baseDatos)
-
-         await getDocs(queryActulizarStock)
-         .then(resp => resp.docs.forEach(res => batch.update(res.ref, {
-             stock: res.data().stock - cartList.find(productos => productos.id === res.id).cantidad
-         }) ))
-         .catch(err => console.log(err))
-        .finally(()=> {
-            vaciarCarrito()            
-        })
-
-        batch.commit()
+        setOrder (order)
+        .then (resp=> setId(resp.id)) //If successful, set order id to show later
+        updateStock (cartList, vaciarCarrito) //Update stock of items bought
+        // save the order in the database
+        const baseDatos = getFirestore()
 
 
     }    
 
-    const handleChange = (e) => {
-        
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
-    
-
-    console.log(formData)
-
+   
 
   return (
     <>
+    <br/>
+     {/* check if orderId was generated and if so, show */} 
     {id !== '' &&
     <div>
         <Card className="text-center mx-auto" syle={{width: '20rem' , borderRadius:"12px"}}>
@@ -102,25 +58,34 @@ const Cart = () => {
     </div>
     }
     {cartList.length === 0?
-    <Card className="text-center mx-auto" style={{ width: '10rem' }}>
-        <CardHeader> Aun no tienes nada en tu carrito!</CardHeader>
-        <button className="btn-outline-light" style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }}><Link to="/" style={{  color: "white" }}>Ir a comprar</Link> </button>
+    <Card className="text-center mx-auto" style={{ width: '30rem' }}>
+        <div className="center"><img src="src/img/empty-cart.svg"></img></div>
+        <CardHeader><h3>Aun no tienes nada en tu carrito!</h3> </CardHeader>
+        <button className="btn-outline-light" style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"15px", outlineColor:"white" }}><Link to="/" style={{  color: "white" }}><h4> Ir a comprar</h4></Link> </button>
     </Card>
     :
     
-    <div className="row"> 
+    <div className="row text-center mx-auto"> 
       <h1> Tu Carrito </h1> 
-         <div className="col-8"> 
-         {/*id.length > 0 && <h2>El id de la orden es:  {id}</h2> */}
-             <div  className="w-100">
+      
+         <div className="col-6"> 
+             <div  className="20vh">
               {cartList.map (productos =>(
                 <div key={productos.id}>
-            <img src= {productos.foto} alt="Foto del producto" className='w-20'/>
-            -Nombre del Producto: {productos.name}-Cantidad:{productos.cantidad} -Precio: {productos.price} -Importe: {productos.cantidad *productos.price} - Subtotal: {productos.cantidad * productos.price}
-          
-            <div><button  className="btn btn-danger"  onClick={ ()=> eliminarProducto (productos.id)} >  Eliminar producto x </button></div>
+            <img src= {productos.foto} alt="Foto del producto" className='img-fluid'/>
+            <Card className=" text-center mx-auto" style={{ width: '50rem' }}> 
+            <br/>            Nombre del Producto: {productos.name}
+            <br/>            Cantidad:{productos.cantidad}
+            <br/>            Precio: {productos.price} 
+            <br/>            Importe: {productos.cantidad *productos.price} 
+            <br/>            Subtotal: {productos.cantidad * productos.price}
+            </Card>
+            <Card className="text-center mx-auto" style={{ width: '50rem' }}>
+            <button  className="btn btn-danger"  onClick={ ()=> eliminarProducto (productos.id)} style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }} >  Eliminar producto x </button> 
+            <button  className="btn btn-danger" onClick={vaciarCarrito} style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }}>Vaciar carrito</button></Card>
+            </div>
 
-      </div> 
+      
 
         ))} 
         </div>
@@ -130,69 +95,13 @@ const Cart = () => {
                     <CardHeader>TOTAL</CardHeader>
         <h6>  { precioTotal() !== 0 && `Precio Total: ${ precioTotal() }`} </h6>
         </Card>
-        <button  className="btn-outline-light" onClick={vaciarCarrito} style={{ borderRadius:"12px", backgroundColor: "#FF9F50", color: "white", margin:"5px", outlineColor:"white" }}>Vaciar carrito</button>
+        
                 </div>
             </div>
-              <div className="col-4">
-                <form 
-                    onSubmit={ guardarOrden }
-                    className="p-2 w-75 border border-2 border-warning rounded" 
-                >
-                    <label className="ml-0 alert alert-warning">Formulario </label>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Ingrese su Nombre</label>
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            name="name"                            
-                            placeholder="Ingrese su nombre" 
-                            onChange={handleChange}
-                            value={formData.name}
-
-                        />                        
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPhone">Telefono</label>
-                        <input 
-                            type="number" 
-                            className="form-control" 
-                            name="phone" 
-                            onChange={handleChange}
-                            placeholder="Ingrese su teléfono"
-                            value={formData.phone}
-                        />                        
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Email</label>
-                        <input 
-                            type="email" 
-                            className="form-control" 
-                            name="email" 
-                            onChange={handleChange}
-                            placeholder="Ingrese su e-mail" 
-                            value={formData.email}
-                        />
-                        
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Repetir Email</label>
-                        <input 
-                            type="email" 
-                            className="form-control" 
-                            name="rEmail"                            
-                            placeholder="Enter email" 
-                            onChange={handleChange}
-                            value={formData.rEmail}
-
-                        />
-                    </div>
-                    <div className="form-check">
-                       
-                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" className="btn btn-primary">COMPRAR</button>
-
-                </form>
+             {/* Formulario(chechoutForm) */} 
+              <div>
+                
+               <CheckoutForm guardarOrden={guardarOrden}/>
             </div>    
         </div>
 }

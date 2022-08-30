@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useCartContext } from '../../context/CartContext'
 import ItemCount from '../ItemCount/ItemCount'
@@ -6,54 +7,57 @@ import ItemCount from '../ItemCount/ItemCount'
 
 const ItemDetail = ({producto}) => {
   const[ isCount, setIsCount] = useState (true)
-  const{agregarCarrito, cartList}= useCartContext()
+  const{agregarCarrito}= useCartContext() // Consuming a function of context
 
-//const [toCart, setToCart]= useState (true)
+
 
 const onAdd= (cant)=> {
-    //setToCart(false)
+   
   agregarCarrito ({...producto, cantidad:cant})
   alert (`La cantidad es ${cant}`)
-  setIsCount(false)
+  setIsCount(false) //Set state for conditional rendering
 }
-console.log(cartList)
+
 
   return (
-    <div className='row'>
-      <div className="col-md-4 p-1">
-        <div className='card w-100 mt-5'>
-          <div className='col'>
-            <div className="col"></div>
-            <img src={producto.foto} alt="Foto del Producto" />
-          </div>
-          <div className='col'>
-            <h3>{ producto.name}</h3>
-            <p>Categoria:{producto.categoria}</p>
-            <p></p>
-            <p>Precio: {producto.price}</p>
-          </div>
-        </div>
-      
-      </div>
-      <div className="col">
-       
-      
-       
-      {isCount ? 
-        <ItemCount initial={1} stock={5} onAdd= {onAdd} />
-         : 
-         <>
-         <Link to= {'/cart'}>
-         <button className=' btn btn-outline-success'> Terminar la compra</button>
-         </Link><Link to= {'/'}>
-         <button className=' btn btn-outline-primary'> Seguir Comprando</button>
-         </Link>
-         
-         </>
-        }
-      
-      </div>
-    </div>
+    <>
+    <Container>
+
+      <Card className="text-center mx-auto" style={{ width: '40rem'}}>
+        <Row>
+          <Col>
+          <img src={producto.foto} alt="Foto del Producto"  width="330" height="330" style={{ padding: '15px' }} />
+          
+          </Col>
+          <Col style={{ marginRight: '20px' }}>
+
+          <br/>
+          <div> <h2>{producto.name}</h2></div>
+          <div>{producto.detalle}</div>
+          <div><h6>Stock: {producto.stock}</h6></div>
+          <div style={{ marginTop: '5px' }}>{`Precio: ${producto.price}`}</div>
+          <br/>
+
+          {isCount ? 
+
+<ItemCount initial={1} stock={producto.stock} onAdd= {onAdd} />
+:
+          <ButtonGroup>
+            <button className="btn btn-sm" style={{ borderRadius:"12px", backgroundColor: "#FF9F50", margin:"5px", outlineColor:"white" }}>
+              <Link style={{  color: "white" }} to="/">Seguir Comprando</Link></button>
+              <button className="btn btn-sm" style={{ borderRadius:"12px", backgroundColor: "#FF9F50", margin:"5px", outlineColor:"white" }}>
+              <Link style={{  color: "white" }} to="/cart">Terminar Compra</Link></button>
+          </ButtonGroup>
+          
+          }
+         <br/>
+
+          </Col>
+        </Row>
+      </Card>
+    </Container>
+
+    </>
    
   )
 }

@@ -1,19 +1,21 @@
 import React from 'react'
+import { Container, Row } from 'react-bootstrap'
 import Item from '../Item/Item'
 
 
 const ItemList = ({productos}) => {
   return (
-    <div style={ {
-display: 'flex',
-flexDirection:'row',
-flexWrap:'wrap'
-    }}>
-{
-    productos?.map( prod=> <Item key= {prod.id} prod={prod}/>)
-}
+    <> 
+    <Container>
+      <Row md={2}>
+      
+    
+{    productos?.map( prod=> <Item key= {prod.id} prod={prod}/>)}
 
-    </div>
+    
+    </Row>
+    </Container>
+    </>
   )
 }
 

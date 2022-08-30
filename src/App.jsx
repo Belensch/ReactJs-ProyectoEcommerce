@@ -20,14 +20,14 @@ function App() {
   return (
     <BrowserRouter>    
       <CartContextProvider>
-        <div className="App border border-3 border-danger">
+        <div className="App">
          <NavBar />
          <Routes>
               <Route index path='/' element={<ItemListContainer/>}/>
               <Route path='/categoria/:categoriaId' element={<ItemListContainer/>}/>
               <Route path='/detalle/:detalleId' element={<ItemDetailContainer/>}/>
               <Route path='/cart' element={<Cart/>}/>
-            { /*<Route path='/NoFound' element={<NoFound/>}/>  ... crear elemento*/}
+            
                <Route path='*' element={<Navigate to ='/'/>}/>  {/* ruta para todos esos elementos SIN ruta al NOT FOUND o al index en este caso*/}
            </Routes>      
       </div>      

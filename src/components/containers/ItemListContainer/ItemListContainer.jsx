@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { collection, getDocs, getFirestore, query, where} from 'firebase/firestore'
-import ItemCount from "../../ItemCount/ItemCount"
 import ItemList from "../../ItemList/ItemList"
+import Loading from "../../Loading/Loading"
 
 
 
 
 
 const ItemListContainer = ({saludo}) => {
-  const [ productos, setProductos ] = useState([])    
-    const [ loading, setLoading ] = useState(true)
+  const [ productos, setProductos ] = useState([])    // State for products array from database
+    const [ loading, setLoading ] = useState(true)    // State for conditional rendering of Loading component
 
-    const {categoriaId} = useParams()
+    const {categoriaId} = useParams()    //UseParams hook to get the parameters of the route
     
  
     useEffect (()=>{
@@ -21,44 +21,34 @@ const ItemListContainer = ({saludo}) => {
       const queryCollectionFilter = categoriaId? query(queryCollection, 
         where('categoria', '==', categoriaId)) : queryCollection
       getDocs (queryCollectionFilter)
-      .then (resp => setProductos (resp.docs.map(prod => ({id: prod.id, ...prod.data() } ) ) ) )
-      .catch (err => console.log (err))   
-      .finally( () => setLoading (false))
+      .then (resp => setProductos (resp.docs.map(prod => ({id: prod.id, ...prod.data() } ) ) ) )    //Set products and assign the id to each item
+      .catch (err => console.log (err))   // Check for errors in the previous step
+      .finally( () => setLoading (false)) //Set loading to false to show ItemList component
     
-    },[categoriaId])
-    console.log(productos)
+    },[categoriaId])   //useEffect control on mount and every time categoryId changes
+   
 
 
-  const onAdd = (cant) => {
-      console.log(`La cantidad es:  ${cant}`)
-  }
-  const Loading = ()=> {
-    useEffect(()=>{
-      
-    })
-    return <div><h1>Cargando ... </h1>
-    <div className="sk-chase">
-    <div className="sk-chase-dot"></div>
-    <div className="sk-chase-dot"></div>
-    <div className="sk-chase-dot"></div>
-    <div className="sk-chase-dot"></div>
-    <div className="sk-chase-dot"></div>
-    <div className="sk-chase-dot"></div>
-    </div>
-</div>
-  }
+
+  
+    
+  
   
   return (
       <div>
-          { saludo }
+        {categoriaId && <h3>{ saludo }</h3>}
+
+        <br/>
+        <br/>
           
-              { loading ? 
-              <Loading/>
+          
+              { loading ? <Loading/>
+              
                   
                   : 
                   <ItemList productos={productos} />
               }
-          <ItemCount initial={1} stock={5} onAdd={onAdd} />
+          
         </div>
       
   )
